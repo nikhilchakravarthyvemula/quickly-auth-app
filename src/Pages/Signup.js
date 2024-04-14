@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from 'react-router-dom'; import { useNavigate } from 'react-router-dom'; 
 
 
 function Signup() {
@@ -17,7 +17,7 @@ function Signup() {
 
   const [company, setCompany] = useState({
     activity: {
-      early_pay_intent: true, // Assuming this to be a checkbox or a toggle
+      early_pay_intent: true, 
       expected_activity: '"Get my invoices paid early'
     },
     early_pay_intent: true,
@@ -68,7 +68,6 @@ function Signup() {
       alert("Emails do not match!");
       return;
     }
-
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
