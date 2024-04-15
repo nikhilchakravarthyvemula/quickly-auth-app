@@ -20,18 +20,14 @@ function Login() {
         email: email,
         password: password
       });
-      console.log("API Response:", response.data);
-      console.log("token:", response.data.token);
       if (response.data.token) {
         localStorage.setItem('jwtToken', response.data.token);
         navigate('/profile');
       } else {
         setError('Authentication failed, no token received');
-        console.error('JWT Token is undefined:', response.data);
       }
     } catch (loginError) {
-      setError('Failed to login');
-      console.error('Login Error:', loginError.response || loginError.message);
+      setError(loginError.response?.data?.message || 'Failed to login');
     }
   };
   return (
@@ -57,7 +53,7 @@ function Login() {
           />
           <button className="button" type="submit">SIGN IN</button>
           <a>Don't have an account?</a>
-          <div className="New-User">
+          <div className="existing-user">
             <Link to="/signup" className="text-sm mt-3 text-right block">
               <span>Sign up</span>
             </Link>

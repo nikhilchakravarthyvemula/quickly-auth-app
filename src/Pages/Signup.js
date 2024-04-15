@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; import { useNavigate } from 'react-router-dom'; 
+import { Link } from 'react-router-dom'; import { useNavigate } from 'react-router-dom';
 
 
 function Signup() {
+  
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -13,11 +14,11 @@ function Signup() {
     confirmPassword: ''
   });
 
-
+  const [error, setError] = useState('');
 
   const [company, setCompany] = useState({
     activity: {
-      early_pay_intent: true, 
+      early_pay_intent: true,
       expected_activity: '"Get my invoices paid early'
     },
     early_pay_intent: true,
@@ -34,7 +35,7 @@ function Signup() {
     phone: '4035551988',
     business_number: '654087322',
     has_trade_name: false,
-    legal_name: FormData.first_name + ' ' + FormData.last_name,
+    legal_name: '',
     expected_activity: 'Get my invoices paid early'
   });
 
@@ -57,8 +58,8 @@ function Signup() {
       }));
     }
   };
-  const navigate = useNavigate(); // Use the useNavigate hook for navigation
 
+  const navigate = useNavigate(); // Use the useNavigate hook for navigation
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -81,12 +82,10 @@ function Signup() {
     };
     try {
       const response = await axios.post('https://api-dev.quicklyinc.com/auth/signup', { user, company });
-      console.log(response.data);
       navigate('/Login');
       // Handle the successful response (e.g., redirect to login or display a success message)
-    } catch (error) {
-      console.error('Signup Error:', error);
-      // Handle errors (e.g., display error messages)
+    } catch (signupError) {
+      setError(signupError.response?.data?.message || "An error occurred during signup.");
     }
   };
 
@@ -111,6 +110,15 @@ function Signup() {
             value={formData.last_name}
             onChange={handleFormDataChange}
             placeholder="Last Name"
+            required
+          />
+           <input
+            className="login-input"
+            type="text"
+            name="legal_name"
+            value={company.legal_name}
+            onChange={handleCompanyChange}
+            placeholder="Legal Name"
             required
           />
           <input
@@ -158,12 +166,13 @@ function Signup() {
           <p className="inline-block text-gray-700">
             Already have an account?
           </p>
-          <div className="New-User">
+          <div className="new-User">
             <Link to="/login">
               Login
             </Link>
           </div>
         </form>
+        {error && <p className="login-error">{error}</p>}
       </div>
     </div>
   );

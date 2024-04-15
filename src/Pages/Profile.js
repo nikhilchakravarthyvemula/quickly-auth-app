@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 function Profile() {
+
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
